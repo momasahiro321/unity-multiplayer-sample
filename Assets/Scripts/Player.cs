@@ -19,8 +19,8 @@ public class Player : NetworkBehaviour
 
     public void Start()
     {
-        if (IsOwner) SetPlayerNameServerRpc(Camera.main.GetComponent<GameManager>().playerName); //サーバーにプレイヤー名を通知
         SetColor();
+        if (IsOwner) SetPlayerNameServerRpc(Camera.main.GetComponent<GameManager>().playerName); //サーバーにプレイヤー名を通知
     }
 
     public void Update()

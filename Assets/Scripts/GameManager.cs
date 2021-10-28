@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     private string address = "127.0.0.1";
     private int port = 7777;
     private bool started = false;
-    private bool host = false;
 
     public string playerName = "No Name";
 
@@ -19,10 +18,9 @@ public class GameManager : MonoBehaviour
         address = PlayerPrefs.GetString("address", address);
         port = PlayerPrefs.GetInt("port", port);
 
-        //ホストから切断された時
         NetworkManager.Singleton.OnClientDisconnectCallback += (ulong id) =>
         {
-            if (!host) started = false;
+            if (!NetworkManager.Singleton.IsHost) started = false; //ホストから切断された時
         };
     }
 
@@ -41,14 +39,12 @@ public class GameManager : MonoBehaviour
         {
             ConnectSettings(address, port);
             NetworkManager.Singleton.StartClient();
-            host = false;
         }
 
         if (!started && GUILayout.Button("Start Host"))
         {
             ConnectSettings(address, port);
             NetworkManager.Singleton.StartHost();
-            host = true;
         }
 
         if (started && GUILayout.Button("Stop"))
